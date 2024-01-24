@@ -1,0 +1,23 @@
+<div>
+  <h1 class="container mt-3">Pregled dostupnih tema</h1>
+  <h3 *ngIf="themes.length == 0">Nema dostupnih tema</h3>
+  <div class="list-themes" *ngFor="let theme of themes">
+    <div
+      class="container d-flex border border-secondary rounded mt-md-3 p-3"
+      style="background-color: rgb(185, 185, 185)"
+    >
+      <div class="container">
+        <h1>{{ theme.name }}</h1>
+        <h5>{{ theme.field }}</h5>
+        <p>{{ theme.description }}</p>
+      </div>
+      <button
+        *ngIf="!hasReservedTheme"
+        class="btn btn-primary h-50"
+        (click)="reserveThemes(theme.id)"
+      >
+        Rezervisi
+      </button>
+    </div>
+  </div>
+</div>

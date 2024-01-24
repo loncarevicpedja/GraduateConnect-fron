@@ -1,0 +1,196 @@
+<div class="container">
+  <div
+    class="container d-flex justify-content-between mt-3"
+    *ngIf="role == 'Profesor' || role == 'Referent'"
+  >
+    <h3>Autor: {{ student.firstName + " " + student.lastName }}</h3>
+    <p>
+      Status završnog rada: <b>{{ laborObj.status }}</b>
+    </p>
+  </div>
+  <div
+    class="container border border-danger-subtle alert-warning"
+    style="border-radius: 15px; margin-bottom: 10px"
+    *ngIf="laborObj.status == 'Zahteva zavrsetak' && role == 'Profesor'"
+  >
+    <p>Student zahteva zavrsetak rada, da li rad ispunjava zahtevane uslove?</p>
+    <div>
+      <button class="btn btn-success m-2" (click)="endLabor('Zavrsen')">
+        Da
+      </button>
+      <button class="btn btn-danger m-2" (click)="continueLabor('Zapocet')">
+        Ne
+      </button>
+    </div>
+  </div>
+  <div class="labor d-flex justify-content-between">
+    <div
+      class="container w-100 p-3"
+      style="background-color: rgb(197, 189, 189); border-radius: 15px"
+    >
+      <h2>{{ laborObj.name }}</h2>
+      <p>{{ laborObj.description }}</p>
+      <hr />
+      <div class="d-flex w-100 justify-content-between w-75">
+        <div>
+          <p *ngIf="laborObj.rate">
+            Ocena: <b>{{ laborObj.rate }}</b>
+          </p>
+          <p *ngIf="laborObj.dateOfDefense">
+            Datum odbrane završnog rada: <b>{{ laborObj.dateOfDefense }}</b>
+          </p>
+          <div *ngIf="!laborObj.commissionId">
+            <p>Članovi komisije</p>
+            <p *ngFor="let member of commissionMembers">
+              <b> {{ member.firstName + " " + member.lastName }}</b>
+            </p>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column">
+          <button
+            class="btn btn-danger"
+            *ngIf="role == 'Student' && laborObj.status == 'Nezapocet'"
+            (click)="returnTheme()"
+          >
+            Vrati temu
+          </button>
+          <button
+            class="btn btn-success"
+            *ngIf="
+              role == 'Student' &&
+              laborObj.status != 'Zavrsen' &&
+              laborObj.status != 'Nezapocet'
+            "
+            (click)="lookingForEnd('Zahteva zavrsetak')"
+          >
+            Traži završetak rada
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" *ngIf="!laborObj.profesorId && role == 'Student'">
+      <h3>Odaberite mentora</h3>
+      <p>Ne možete započeti izradu završnog rada ako ne odaberete mentora.</p>
+
+      <div class="container">
+        <select
+          (ngModel)="(selectedProfesor)"
+          (change)="onProfesorSelected($event)"
+        >
+          <option [value]="null" selected disabled>Odaberite mentora</option>
+          <option *ngFor="let profesor of freeProfesors" [value]="profesor.id">
+            {{ profesor.firstName + " " + profesor.lastName }}
+          </option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" (click)="setMentor()">Odaberi</button>
+    </div>
+  </div>
+
+  <div
+    class="container w-100"
+    *ngIf="laborObj.profesorId && (role == 'Profesor' || role == 'Student')"
+  >
+    <form
+      fileUploadForm="ngForm"
+      class="d-flex justify-content-between align-items-center"
+    >
+      <div>
+        <p>
+          Naziv fajla: <b> {{ laborFileName }}</b>
+        </p>
+        <input
+          type="file"
+          name="file"
+          accept=".docx"
+          *ngIf="role != 'Referent'"
+          (change)="handleFileInput($event)"
+        />
+      </div>
+      <div *ngIf="!laborExist && role != 'Referent'">
+        <button
+          class="btn btn-primary"
+          (click)="onFileUpload($event)"
+          type="submit"
+          [disabled]="!selectedFile"
+        >
+          Dodaj fajl
+        </button>
+      </div>
+
+      <div *ngIf="laborExist" class="d-flex flex-column">
+        <button
+          *ngIf="role != 'Referent'"
+          class="btn btn-warning w-15"
+          (click)="onFileUpload($event)"
+          type="submit"
+        >
+          Ažuriraj rad
+        </button>
+
+        <button
+          *ngIf="laborExist"
+          class="btn btn-primary"
+          (click)="downloadFile(laborObj.id, $event)"
+          type="submit"
+        >
+          Preuzmi fajl
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="container mt-3" *ngIf="role == 'Referent'">
+  <div class="container" *ngIf="!laborObj.commissionId">
+    <h3>Formiraj komisiju</h3>
+    <form>
+      <div *ngFor="let professor of freeProfesors">
+        <label>
+          <input
+            type="checkbox"
+            [value]="professor.id"
+            [checked]="selectedProfessors.includes(professor.id)"
+            [disabled]="professor.id == laborObj.profesorId"
+            (change)="toggleSelection(professor.id)"
+            name="selectedProfessors"
+          />
+          {{ professor.firstName }} {{ professor.lastName }}
+        </label>
+      </div>
+      <button class="btn btn-primary" type="button" (click)="createCommittee()">
+        Formiraj komisiju
+      </button>
+    </form>
+  </div>
+  <!-- <div class="container" *ngIf="laborObj.commissionId != 0">
+    <h3>Članovi komisije</h3>
+    <div *ngFor="let member of commissionMembers">
+      <p>{{ member.firstName + " " + member.lastName }}</p>
+    </div>
+  </div> -->
+  <div class="container" *ngIf="!laborObj.dateOfDefense">
+    <h3>Zakažite termin odbrane</h3>
+    <div class="d-flex flex-column w-25">
+      <input type="datetime-local" id="defenseDate" [(ngModel)]="defenseDate" />
+      <button class="btn btn-primary" (click)="setDefenseDate()">
+        Postavi datum odbrane
+      </button>
+    </div>
+  </div>
+  <div class="container" *ngIf="!laborObj.rate">
+    <h3>Unesite ocenu</h3>
+    <div class="d-flex flex-column w-25">
+      <input
+        type="number"
+        min="5"
+        max="10"
+        id="defenseDate"
+        [(ngModel)]="rate"
+      />
+      <button class="btn btn-primary" (click)="setRate()">Unesite ocenu</button>
+    </div>
+  </div>
+</div>

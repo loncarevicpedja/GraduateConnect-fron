@@ -1,0 +1,35 @@
+<div class="container">
+  <div
+    class="d-flex justify-content-between align-items-center p-4"
+    style="background-color: rgb(197, 189, 189); border-radius: 15px"
+  >
+    <div>
+      <h1 class="">Dobrodošli u GraduateConnect</h1>
+      <p>Prva online platforma za dodelu završnih radova</p>
+    </div>
+    <img
+      class="w-25 h-25"
+      src="../../../assets/logo-removebg-preview.png"
+      alt=""
+    />
+  </div>
+
+  <div class="container" *ngIf="role == 'Admin'">
+    <p>Admin</p>
+  </div>
+  <div class="container" *ngIf="role == 'Profesor'">
+    <div *ngIf="commissions" class="mt-5">
+      <h3>Vaš raspored za odbrane završnih radova</h3>
+      <div *ngFor="let labor of labors">
+        <h5>{{ labor.name }}</h5>
+        <p>Datum odbrane: {{ labor.dateOfDefense }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="role == 'Student'">
+    <p>Student</p>
+  </div>
+  <div class="container" *ngIf="role == 'Referent'">
+    <p>Referent</p>
+  </div>
+</div>

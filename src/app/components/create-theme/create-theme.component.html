@@ -1,0 +1,59 @@
+<div class="vh-100 vw-95 d-flex align-items-center justify-content-center">
+  <div class="container w-25">
+    <h3>Dodaj temu</h3>
+    <form [formGroup]="themeForm">
+      <div class="d-flex flex-column mb-2">
+        <label>Naziv: </label>
+        <input formControlName="name" />
+        <div
+          *ngIf="
+            themeForm.controls['name'].invalid &&
+            themeForm.controls['name'].touched
+          "
+          class="text-danger"
+        >
+          *Naziv teme je obavezan
+        </div>
+      </div>
+      <div class="d-flex flex-column mb-2">
+        <label>Opis: </label>
+        <textarea
+          name=""
+          formControlName="description"
+          id=""
+          cols="30"
+          rows="10"
+        ></textarea>
+        <div
+          *ngIf="
+            themeForm.controls['description'].invalid &&
+            themeForm.controls['description'].touched
+          "
+          class="text-danger"
+        >
+          *Opis teme je obavezan
+        </div>
+      </div>
+      <div class="d-flex flex-column mb-2">
+        <label>Oblast: </label>
+        <input formControlName="field" />
+        <div
+          *ngIf="
+            themeForm.controls['field'].invalid &&
+            themeForm.controls['field'].touched
+          "
+          class="text-danger"
+        >
+          *Oblast teme je obavezna
+        </div>
+      </div>
+      <input
+        [disabled]="themeForm.invalid"
+        type="button"
+        class="btn btn-primary w-100"
+        value="Dodaj temu"
+        (click)="onSubmit()"
+      />
+    </form>
+  </div>
+</div>

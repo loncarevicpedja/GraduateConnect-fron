@@ -1,0 +1,13 @@
+<div class="dropdown">
+  <button
+    class="dropbtn"
+    style="background-color: rgb(54, 108, 208); border-radius: 10px"
+  >
+    {{ fullName }}
+  </button>
+  <div class="dropdown-content">
+    <a *ngFor="let option of options" (click)="onSelect(option)">{{
+      option
+    }}</a>
+  </div>
+</div>

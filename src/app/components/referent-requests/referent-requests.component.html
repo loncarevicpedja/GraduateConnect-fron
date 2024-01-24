@@ -1,0 +1,20 @@
+<div class="container">
+  <h1 class="m-4">Zahtevi za zakazivanje odbrane:</h1>
+  <h2 *ngIf="fisnishedLabors.length == 0">Nema zahteva.</h2>
+  <div
+    class="container w-100 mt-2 d-flex justify-content-between p-3 align-items-center"
+    style="background-color: rgb(151, 158, 158); border-radius: 15px"
+    *ngFor="let labor of fisnishedLabors"
+  >
+    <div>
+      <h2>{{ labor.name }}</h2>
+      <h3>{{ findUser(labor.id) }}</h3>
+      <p>Datum zavrsretka: {{ labor.dateOfSubmission }}</p>
+    </div>
+    <div>
+      <button class="btn btn-primary m-0" (click)="redirectToLabor(labor)">
+        Zakazi odbranu
+      </button>
+    </div>
+  </div>
+</div>

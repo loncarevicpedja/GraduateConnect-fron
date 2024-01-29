@@ -46,6 +46,9 @@ export class ProfAccComponent implements OnInit {
             duration: 5000,
           });
           this.signUpForm.reset();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         },
         error: (err) => {
           this.toast.error({

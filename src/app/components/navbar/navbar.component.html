@@ -26,6 +26,9 @@
               >Kreiraj nalog za referenta</a
             >
           </li>
+          <li class="nav-item active">
+            <a class="nav-link" routerLink="searchUsers">Pretraži korisnike</a>
+          </li>
         </ng-container>
         <ng-container *ngIf="role == 'Referent'">
           <li class="nav-item active">
@@ -38,11 +41,9 @@
               >Evidentiranje ocena</a
             >
           </li>
-          <!-- <li class="nav-item active">
-            <a class="nav-link" routerLink="profaccreferent"
-              >Upravljaj korsinicima</a
-            >
-          </li> -->
+          <li class="nav-item active">
+            <a class="nav-link" routerLink="searchUsers">Pretraži korisnike</a>
+          </li>
         </ng-container>
         <ng-container *ngIf="role == 'Student'">
           <li class="nav-item">

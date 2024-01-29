@@ -31,6 +31,7 @@ export class CreateThemeComponent implements OnInit {
   }
   onSubmit() {
     if (this.themeForm.valid) {
+      console.log(this.themeForm.value);
       this.theme.addTheme(this.themeForm.value).subscribe({
         next: (res) => {
           this.toast.success({
@@ -39,6 +40,9 @@ export class CreateThemeComponent implements OnInit {
             duration: 5000,
           });
           this.themeForm.reset();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         },
         error: (err) => {
           this.toast.error({

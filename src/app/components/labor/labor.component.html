@@ -60,7 +60,10 @@
             *ngIf="
               role == 'Student' &&
               laborObj.status != 'Zavrsen' &&
-              laborObj.status != 'Nezapocet'
+              laborObj.status != 'Nezapocet' &&
+              laborObj.status != 'Zahteva zavrsetak' &&
+              !laborObj.rate &&
+              laborExist
             "
             (click)="lookingForEnd('Zahteva zavrsetak')"
           >
@@ -70,7 +73,10 @@
       </div>
     </div>
 
-    <div class="container" *ngIf="!laborObj.profesorId && role == 'Student'">
+    <div
+      class="container m-3"
+      *ngIf="!laborObj.profesorId && role == 'Student'"
+    >
       <h3>Odaberite mentora</h3>
       <p>Ne možete započeti izradu završnog rada ako ne odaberete mentora.</p>
 
@@ -144,7 +150,7 @@
   </div>
 </div>
 <div class="container mt-3" *ngIf="role == 'Referent'">
-  <div class="container" *ngIf="!laborObj.commissionId">
+  <div class="container m-3" *ngIf="!laborObj.commissionId">
     <h3>Formiraj komisiju</h3>
     <form>
       <div *ngFor="let professor of freeProfesors">
@@ -171,7 +177,7 @@
       <p>{{ member.firstName + " " + member.lastName }}</p>
     </div>
   </div> -->
-  <div class="container" *ngIf="!laborObj.dateOfDefense">
+  <div class="container m-3" *ngIf="!laborObj.dateOfDefense">
     <h3>Zakažite termin odbrane</h3>
     <div class="d-flex flex-column w-25">
       <input type="datetime-local" id="defenseDate" [(ngModel)]="defenseDate" />
@@ -180,7 +186,10 @@
       </button>
     </div>
   </div>
-  <div class="container" *ngIf="!laborObj.rate">
+  <div
+    class="container m-3"
+    *ngIf="!laborObj.rate && laborObj.dateOfDefense && isDateValid()"
+  >
     <h3>Unesite ocenu</h3>
     <div class="d-flex flex-column w-25">
       <input

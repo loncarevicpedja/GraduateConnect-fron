@@ -85,7 +85,7 @@
                   class="input-field"
                   [class.error]="
                     signUpForm.controls['userName'].dirty &&
-                    signUpForm.hasError('required', 'userName')
+                    signUpForm.controls['userName'].invalid
                   "
                 >
                   <span class="fa fa-user p-2"></span>
@@ -95,21 +95,31 @@
                     placeholder="Korisničko ime"
                   />
                 </div>
+                <small
+                  *ngIf="
+                    signUpForm.controls['userName'].dirty &&
+                    signUpForm.controls['userName'].hasError('required')
+                  "
+                  class="text-danger"
+                >
+                  *Korisničko ime je obavezno
+                </small>
+                <small
+                  *ngIf="
+                    signUpForm.controls['userName'].dirty &&
+                    signUpForm.controls['userName'].hasError('minlength')
+                  "
+                  class="text-danger"
+                >
+                  *Korisničko ime mora imati najmanje 5 karaktera
+                </small>
               </div>
-              <small
-                class="text-danger"
-                *ngIf="
-                  signUpForm.controls['userName'].dirty &&
-                  signUpForm.hasError('required', 'userName')
-                "
-                >*Korisničko ime je obavezno</small
-              >
               <div class="form-group pt-3">
                 <div
                   class="input-field"
                   [class.error]="
                     signUpForm.controls['password'].dirty &&
-                    signUpForm.hasError('required', 'password')
+                    signUpForm.controls['password'].invalid
                   "
                 >
                   <span class="fa fa-lock p-2"></span>
@@ -123,16 +133,43 @@
                     class="fa {{ eyeIcon }}"
                   ></span>
                 </div>
+                <small
+                  *ngIf="
+                    signUpForm.controls['password'].dirty &&
+                    signUpForm.controls['password'].hasError('required')
+                  "
+                  class="text-danger"
+                >
+                  *Lozinka je obavezna
+                </small>
+                <small
+                  *ngIf="
+                    signUpForm.controls['password'].dirty &&
+                    signUpForm.controls['password'].hasError('minlength')
+                  "
+                  class="text-danger"
+                >
+                  *Lozinka mora imati najmanje 8 karaktera
+                </small>
+                <small
+                  *ngIf="
+                    signUpForm.controls['password'].dirty &&
+                    signUpForm.controls['password'].hasError('pattern')
+                  "
+                  class="text-danger"
+                >
+                  *Lozinka mora sadržati slova i brojeve
+                </small>
+                <small
+                  *ngIf="
+                    signUpForm.controls['password'].dirty &&
+                    signUpForm.controls['password'].hasError('pattern')
+                  "
+                  class="text-danger"
+                >
+                  *Lozinka mora sadržati veliko slovo
+                </small>
               </div>
-              <small
-                class="text-danger"
-                *ngIf="
-                  signUpForm.controls['password'].dirty &&
-                  signUpForm.hasError('required', 'password')
-                "
-                >*Lozinka je obavezna</small
-              >
-
               <button
                 type="submit"
                 class="btn btn-primary btn-block mt-4 w-100"

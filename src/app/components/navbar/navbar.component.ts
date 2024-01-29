@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     this.userStore.getRoleFromStore().subscribe((val) => {
       let roleFromToken = this.auth.getRoleFromToken();
       this.role = val || roleFromToken;

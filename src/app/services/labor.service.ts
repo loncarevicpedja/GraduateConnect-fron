@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LaborService {
-  public baseUrl: string = 'https://localhost:7296/api/Labor/';
+  public baseUrl: string =
+    'http://loncarevicp-001-site1.htempurl.com/api/Labor/';
   constructor(private http: HttpClient, private router: Router) {}
 
   createLabor(themeObj: any) {

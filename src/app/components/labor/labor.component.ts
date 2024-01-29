@@ -42,13 +42,17 @@ export class LaborComponent implements OnInit {
     private commission: CommissionService,
     private toast: NgToastService,
     private theme: ThemeService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private routerRedirect: Router
   ) {}
 
   ngOnInit(): void {
     if (this.role == 'Student') {
-      this.getLabor(this.userId);
+      this.getLabor(parseInt(this.userId));
       this.getCommissionMembers(this.laborObj.commissionId);
+      setTimeout(() => {
+        console.log(this.laborObj);
+      }, 2000);
     } else if (this.role == 'Profesor') {
       this.router.queryParams.subscribe((params) => {
         this.student = JSON.parse(params['studentId']);
@@ -62,6 +66,7 @@ export class LaborComponent implements OnInit {
         this.student = JSON.parse(params['studentId']);
       });
       this.getLabor(this.student.studentId);
+      this.getUser(this.student.studentId);
     }
 
     setTimeout(() => {
@@ -72,6 +77,14 @@ export class LaborComponent implements OnInit {
 
   handleFileInput(event: any): void {
     this.selectedFile = event.target.files[0];
+  }
+
+  getUser(userId: any) {
+    this.user.getUserFromId(userId).subscribe({
+      next: (res) => {
+        this.student = res;
+      },
+    });
   }
 
   getCommissionMembers(commissionId: any) {
@@ -220,7 +233,7 @@ export class LaborComponent implements OnInit {
   }
 
   checkFileExistence() {
-    this.labor.checkFileExistence(this.laborObj.id).subscribe({
+    this.labor.checkFileExistence(parseInt(this.laborObj.id)).subscribe({
       next: (res) => {
         this.laborExist = res.exists;
         this.laborFileName = res.fileName;
@@ -312,6 +325,9 @@ export class LaborComponent implements OnInit {
           summary: res.message,
           duration: 5000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       },
       error: (err) => {
         this.toast.error({
@@ -321,6 +337,12 @@ export class LaborComponent implements OnInit {
         });
       },
     });
+  }
+
+  isDateValid(): boolean {
+    const today = new Date();
+    const defenseDate = new Date(this.laborObj.dateOfDefense);
+    return today > defenseDate;
   }
 
   endLabor(status: string) {
@@ -372,9 +394,13 @@ export class LaborComponent implements OnInit {
       next: (res) => {
         this.toast.success({
           detail: 'SUCCESS',
-          summary: res,
+          summary: res.message,
           duration: 5000,
         });
+        this.routerRedirect.navigate(['/freethemes']);
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       },
       error: (err) => {
         this.toast.error({

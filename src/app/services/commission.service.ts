@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class CommissionService {
-  public baseUrl: string = 'https://localhost:7296/api/Commission/';
+  public baseUrl: string =
+    'http://loncarevicp-001-site1.htempurl.com/api/Commission/';
   constructor(private http: HttpClient, private router: Router) {}
 
   createCommission() {

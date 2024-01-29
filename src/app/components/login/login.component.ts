@@ -43,9 +43,11 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.auth.login(this.loginForm.value).subscribe(
         (res) => {
+          console.log(res);
           this.loginForm.reset();
           this.auth.storeToken(res.token);
           let tokenPayload = this.auth.decodedToken();
+          console.log(tokenPayload.unique_name);
           this.toast.success({
             detail: 'SUCCESS',
             summary: res.message,

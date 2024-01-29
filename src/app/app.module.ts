@@ -23,6 +23,8 @@ import { FormsModule } from '@angular/forms';
 import { ReferentRatesComponent } from './components/referent-rates/referent-rates.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { SearchUsersComponent } from './components/search-users/search-users.component';
+import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     ReferentRatesComponent,
     DropdownComponent,
     ProfileComponent,
+    SearchUsersComponent,
+    ProfileInfoComponent,
   ],
   imports: [
     BrowserModule,

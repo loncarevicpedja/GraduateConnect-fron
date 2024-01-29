@@ -13,6 +13,8 @@ import { ProfAccReferentComponent } from './components/prof-acc-referent/prof-ac
 import { ReferentRequestsComponent } from './components/referent-requests/referent-requests.component';
 import { ReferentRatesComponent } from './components/referent-rates/referent-rates.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { SearchUsersComponent } from './components/search-users/search-users.component';
+import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -49,7 +51,17 @@ const routes: Routes = [
     component: ReferentRatesComponent,
     canActivate: [authGuard],
   },
+  {
+    path: 'searchUsers',
+    component: SearchUsersComponent,
+    canActivate: [authGuard],
+  },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
+  {
+    path: 'profileInfo/:id',
+    component: ProfileInfoComponent,
+    canActivate: [authGuard],
+  },
   {
     path: 'dashboard',
     component: DashboardComponent,

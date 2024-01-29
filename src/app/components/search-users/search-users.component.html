@@ -1,0 +1,64 @@
+<div class="container mt-5">
+  <div
+    class="container"
+    style="background-color: gray; padding: 20px; border-radius: 15px"
+  >
+    <h1>Pretraga korisnika</h1>
+    <div class="col-md-3 mt-3">
+      <input
+        type="text"
+        class="form-control mb-3"
+        [(ngModel)]="searchQuery"
+        placeholder="Pretraži korisnike..."
+        (ngModelChange)="search()"
+      />
+    </div>
+    <div class="col-md-3">
+      <select
+        class="form-control mb-3"
+        [(ngModel)]="role"
+        (ngModelChange)="search()"
+      >
+        <option [value]="null" selected disabled>Odaberite ulogu</option>
+        <option value="All">Sve uloge</option>
+        <option value="Student">Student</option>
+        <option value="Profesor">Profesor</option>
+        <option value="Referent">Referent</option>
+      </select>
+    </div>
+    <!-- Ukloniti dugme za pretragu -->
+  </div>
+
+  <div class="row mt-3" *ngIf="users && users.length > 0">
+    <div class="col-md-12">
+      <ul class="list-group">
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between"
+          *ngFor="let user of users"
+        >
+          <p>{{ user.firstName }} {{ user.lastName }} ({{ user.role }})</p>
+          <button
+            class="btn btn-primary m-0"
+            (click)="redirectToProfile(user.id)"
+          >
+            Vidi profil
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="users && users.length === 0">
+    <div class="col-md-12">
+      <div class="alert alert-info">
+        Nema korisnika sa unetim kredencijalima.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="!users">
+    <div class="col-md-12">
+      <div class="alert alert-danger">Gre"ška prilikom pretrage korisnika.</div>
+    </div>
+  </div>
+</div>

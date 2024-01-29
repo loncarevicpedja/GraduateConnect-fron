@@ -20,10 +20,8 @@ export class DropdownComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userStore.getFullNameFromStore().subscribe((val) => {
-      let fullNameFromToken = this.auth.getFullNameFromToken();
-      this.fullName = val || fullNameFromToken;
-    });
+    let tokenPayload = this.auth.decodedToken();
+    this.fullName = tokenPayload.unique_name;
   }
 
   onSelect(option: string): void {

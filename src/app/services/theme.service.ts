@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class ThemeService {
-  private baseUrl: string = 'https://localhost:7296/api/Theme/';
+  private baseUrl: string =
+    'http://loncarevicp-001-site1.htempurl.com/api/Theme/';
   constructor(private http: HttpClient, private router: Router) {}
 
   addTheme(themeObj: any) {
@@ -25,7 +26,10 @@ export class ThemeService {
   }
 
   returnTheme(studentId: number) {
-    return this.http.put<any>(`${this.baseUrl}return-theme/${studentId}`, null);
+    return this.http.post<any>(
+      `${this.baseUrl}return-theme/${studentId}`,
+      null
+    );
   }
 
   checkUser(userId: number) {
